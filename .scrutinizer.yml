@@ -1,0 +1,11 @@
+# vim: set sw=4 ts=4 et :
+imports:
+    - php
+
+filter:
+    excluded_paths:
+        - test/
+
+tools:
+    external_code_coverage: true
+    php_analyzer:           true

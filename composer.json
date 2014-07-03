@@ -1,0 +1,38 @@
+{
+    "_-x-vim-formatting": " vim: set ft=javascript ts=4 sw=4 et : ",
+
+    "name":        "vend/mysql-uuid",
+    "type":        "library",
+    "description": "A MySQL UUID converter and formatter",
+    "keywords":    ["mysql", "uuid"],
+    "license":     "GPL3",
+
+    "authors": [
+        {
+            "name": "Dominic Scheirlinck",
+            "email": "dominic@vendhq.com"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "MysqlUuid\\": "src/"
+        }
+    },
+
+    "minimum-stability": "stable",
+
+    "require": {
+        "php": ">=5.4.0"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
