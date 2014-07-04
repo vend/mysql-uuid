@@ -28,20 +28,7 @@ class String implements Format
      */
     public function toFields($value)
     {
-
-
         return array_combine(['time_low', 'time_mid', 'time_high', 'clock_seq', 'node'], explode('-', $value));
-
-        if (!isset($fields['node'])) {
-            $fields['node'] = $fields['node_high'] . $fields['node_low'];
-        }
-
-        if (!isset($fields['time_low']) || !isset($fields['time_mid'])) {
-            $fields['time_mid'] = substr($fields['time_midlow'], 0, 4);
-            $fields['time_low'] = substr($fields['time_midlow'], 3, 8);
-        }
-
-        return $fields;
     }
 
     /**
@@ -52,6 +39,13 @@ class String implements Format
      */
     public function fromFields(array $fields)
     {
-        // TODO: Implement fromFields() method.
+        return sprintf(
+            '%s-%s-%s-%s-%s',
+            $fields['time_low'],
+            $fields['time_mid'],
+            $fields['time_high'],
+            $fields['clock_seq'],
+            $fields['node']
+        );
     }
 }

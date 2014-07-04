@@ -2,8 +2,14 @@
 
 namespace MysqlUuid\Formats;
 
+/**
+ * A 'standard' UUID that has had the node and
+ */
 class ReorderedString extends String
 {
+    /**
+     * @inheritDoc
+     */
     public function toFields($value)
     {
         $fields = parent::toFields($value);
@@ -20,5 +26,25 @@ class ReorderedString extends String
         $fields['time_mid'] = $time_mid;
 
         return $fields;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromFields(array $fields)
+    {
+        $node_high = substr($fields['node'], 0, 8);
+        $node_low  = substr($fields['node'], 8, 4);
+
+        $time_midlow = $fields['time_mid'] . $fields['time_low'];
+
+        return sprintf(
+            '%s-%s-%s-%s-%s',
+            $node_high,
+            $node_low,
+            $fields['time_high'],
+            $fields['clock_seq'],
+            $time_midlow
+        );
     }
 }

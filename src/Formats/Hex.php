@@ -3,7 +3,7 @@
 namespace MysqlUuid\Formats;
 
 /**
- * Hex with dashes removed
+ * Hex with dashes removed, a 32 byte string of hex characters
  */
 class Hex implements Format
 {
@@ -26,7 +26,13 @@ class Hex implements Format
      */
     public function toFields($value)
     {
-        // TODO: Implement toFields() method.
+        return implode('', [
+            'time_low'  => substr($value, 0, 8),
+            'time_mid'  => substr($value, 8, 4),
+            'time_high' => substr($value, 12, 4),
+            'clock_seq' => substr($value, 16, 4),
+            'node'      => substr($value, 20, 12)
+        ]);
     }
 
     /**
@@ -37,6 +43,13 @@ class Hex implements Format
      */
     public function fromFields(array $fields)
     {
-        // TODO: Implement fromFields() method.
+        return sprintf(
+            '%s%s%s%s%s',
+            $fields['time_low'],
+            $fields['time_mid'],
+            $fields['time_high'],
+            $fields['clock_seq'],
+            $fields['node']
+        );
     }
 }
