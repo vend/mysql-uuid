@@ -43,14 +43,16 @@ use MysqlUuid\Formats\Binary;
 
 $uuid = new Uuid('02fbfeee-02ff-11e4-9583-080027f3add4');
 
-$hex       = $uuid->toFormat(new Hex(false));    // string: 02fbfeee02ff11e49583080027f3add4
-$reordered = $uuid->toFormat(new String(true));  // string: 080027f3-add4-11e4-9583-02ff02fbfeee
-$binary    = $uuid->toFormat(new Binary());      // string: \x08\x00\x27\xf3\xad\xd4\x95\x83\x11\xe4\x02\xff\x02\xfb\xfe\xee
+$hex       = $uuid->toFormat(new Hex());        // string: 02fbfeee02ff11e49583080027f3add4
+$reordered = $uuid->toFormat(new Reordered());  // string: 080027f3-add4-11e4-9583-02ff02fbfeee
+$binary    = $uuid->toFormat(new Binary());     // string: \x08\x00\x27\xf3\xad\xd4\x95\x83\x11\xe4\x02\xff\x02\xfb\xfe\xee
 ```
 
 ## Field Reordering
 
-Here's how the default MySQL-produced string UUID is built out of fields:
+### String and Hex
+
+Here's how the default MySQL-produced string UUID is built out of fields. We use this field structure for both the regular 'string' format, and the 'hex' format.
 
 Field                     | Type           | Octet | Note
 -----                     | ----           | ----- | ----
@@ -61,7 +63,11 @@ clock_seq_hi_and_reserved | unsigned small | 8     | The high field of the clock
 clock_seq_low             | unsigned small | 9     | The low field of the clock sequence.
 node                      | character      | 10-15 | The spatially unique node identifier.
 
-See what is meant by "ruins locality"? The fact `time_low` is the first field basically distributes your keys randomly over the possible ID space. When you pass the `reorder` flag to either the string or hex formats, you'll instead get the following field order:
+See what is meant by "ruins locality"? The fact `time_low` is the first field basically distributes your keys randomly over the possible ID space.
+
+### Reordered String
+
+If you use the 'reordered' format, you'll instead get a UUID with this field format:
 
 Field                     | Type            | Octet | Note
 -----                     | ----            | ----- | ----
@@ -72,9 +78,11 @@ clock_seq_hi_and_reserved | unsigned small  | 8     | The high field of the cloc
 clock_seq_low             | unsigned small  | 9     | The low field of the clock sequence.
 time_midlow               | unsigned 48-bit | 10-15 | The mid field (long) of the timestamp multiplexed with the low field (short) of the timestamp.
 
-Note that we leave the version and variant fields in the same place. When we reorder, we change the variant to `3` and set the version to `3`, which allows us to later identify reordered UUIDs.
+Note that we leave the version and variant fields in the same place. This means if you have anything that gets information from the version and variant fields, or does something like parse the timestamp fields back out of the ID, then this format won't be backward compatible for you. Ideally, we'd set a different version or variant, but it's unclear which values are reserved (e.g. Microsoft has an assigned variant for their UUIDs), and this would still cause problems if we picked a variant already in use.
 
-For binary IDs, we always reorder the fields, and there's no standard way to read the variant/version anyway (no field separators), so we rearrange the fields more aggressively (no need to keep the 4-2-2-2-6 format):
+### Binary
+
+For binary UUIDs, we always reorder the field, and in a slightly more aggressive way than the reordered string format. There's no standard way to read the variant/version from a 16 byte binary value, and no field separators, so we rearrange the fields more aggressively (no need to keep the 4-2-2-2-6 byte format):
 
 Field                     | Type           | Octet | Note
 -----                     | ----           | ----- | ----
