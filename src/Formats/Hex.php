@@ -26,13 +26,13 @@ class Hex implements Format
      */
     public function toFields($value)
     {
-        return implode('', [
+        return [
             'time_low'  => substr($value, 0, 8),
             'time_mid'  => substr($value, 8, 4),
             'time_high' => substr($value, 12, 4),
             'clock_seq' => substr($value, 16, 4),
             'node'      => substr($value, 20, 12)
-        ]);
+        ];
     }
 
     /**

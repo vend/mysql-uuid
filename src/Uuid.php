@@ -2,11 +2,9 @@
 
 namespace MysqlUuid;
 
+use InvalidArgumentException;
 use MysqlUuid\Formats\Format;
 use MysqlUuid\Formats\String;
-
-use LogicException;
-use InvalidArgumentException;
 
 /**
  * MySQL UUID format utilities
@@ -40,83 +38,33 @@ class Uuid
         }
     }
 
+    /**
+     * Checks whether the UUID appears valid for the specified input format
+     *
+     * The input format is set as the second constructor parameter. This method
+     * will validate the $value passed to the constructor against the format.
+     *
+     * @return boolean
+     */
     public function isValid()
     {
         return $this->format->isValid($this->value);
     }
 
+    /**
+     * Converts the UUID to the specified format
+     *
+     * @param Format $format
+     * @return string
+     */
     public function toFormat(Format $format)
     {
-        return $format->fromFields($this->format->toFields($this->value));
-    }
+        $fields = $this->format->toFields($this->value);
 
-
-
-
-
-
-
-    /**
-     * @throws LogicException
-     * @return string 16 byte binary string
-     */
-    public function toBinary()
-    {
-        switch ($this->format) {
-            case self::FORMAT_HEX:
-                return pack('H*', $this->value);
-        }
-    }
-
-
-
-
-
-    /**
-     * @param string  $binary 16 bytes
-     * @param boolean $strict Whether to throw an exception on an invalid UUID input
-     * @throws InvalidArgumentException On invalid input
-     * @return string 36 characters, hex with dashes
-     */
-    public static function binaryToUuid($binary, $strict = false)
-    {
-        if ($strict && !self::isBinary($binary)) {
-            throw new InvalidArgumentException('Invalid binary UUID, could not convert to UUID value');
+        if (!is_array($fields)) {
+            throw new InvalidArgumentException('Cannot get fields from UUID value');
         }
 
-        $h = unpack(self::UNPACK_FORMAT, $binary);
-        return sprintf('%s-%s-%s-%s-%s', $h['time_low'], $h['time_mid'], $h['time_high'], $h['clock_seq'], $h['node']);
-    }
-
-    /**
-     * @param string  $binary 16 bytes
-     * @param boolean $strict Whether to throw an exception on an invalid UUID input
-     * @throws InvalidArgumentException On invalid input
-     * @return string 32 character, hex, no dashes
-     */
-    public static function binaryToHex($binary, $strict = false)
-    {
-        if ($strict && !self::isBinary($binary)) {
-            throw new InvalidArgumentException('Invalid binary UUID, could not convert to hex value');
-        }
-
-        $h = unpack(self::UNPACK_FORMAT, $binary);
-        return implode('', $h);
-    }
-
-
-    /**
-     * @param string  $hex    32 characters, no dashes, optimized order
-     * @param boolean $strict Whether to throw an exception on an invalid UUID input
-     * @throws InvalidArgumentException On invalid input
-     * @return string $uuid 36 characters hex, dashes, original order
-     */
-    public static function hexToUuid($hex, $strict = false)
-    {
-        if ($strict && !self::isHex($hex)) {
-            throw new InvalidArgumentException('Invalid hex UUID, could not convert to UUID value');
-        }
-
-        return self::binaryToUuid(self::hexToBinary($hex));
+        return $format->fromFields($fields);
     }
 }

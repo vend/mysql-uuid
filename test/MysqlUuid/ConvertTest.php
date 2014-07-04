@@ -9,7 +9,7 @@ use MysqlUuid\Formats\ReorderedString;
 use MysqlUuid\Formats\String;
 use MysqlUuid\Test\BaseTest;
 
-class ReorderTest extends BaseTest
+class ConvertTest extends BaseTest
 {
     /**
      * Test conversions between formats
@@ -25,9 +25,19 @@ class ReorderTest extends BaseTest
                 $converted = $uuid->toFormat($to);
 
                 $this->assertEquals(
-                    bin2hex($after),
-                    bin2hex($converted),
+                    $after,
+                    $converted,
                     sprintf('Converting %s from %s to %s', $before, $conversion['from'], $conversion['to'])
+                );
+
+                // Check bijection
+                $uuid = new Uuid($after, $to);
+                $converted = $uuid->toFormat($from);
+
+                $this->assertEquals(
+                    $before,
+                    $converted,
+                    sprintf('Converting %s from %s to %s', $after, $conversion['to'], $conversion['from'])
                 );
             }
         }
