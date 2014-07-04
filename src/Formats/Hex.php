@@ -5,7 +5,7 @@ namespace MysqlUuid\Formats;
 /**
  * Hex with dashes removed
  */
-class Hex extends Reorderable
+class Hex implements Format
 {
     /**
      * Whether the given value appears to fit this format

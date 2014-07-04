@@ -29,4 +29,12 @@ class HexTest extends FormatTest
             '856c9f6030611e49583080027f3add4'
         ];
     }
+
+    /**
+     * @return array<string,array>
+     */
+    protected function fields()
+    {
+        return [];
+    }
 }

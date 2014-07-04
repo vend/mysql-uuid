@@ -2,14 +2,14 @@
 
 namespace MysqlUuid\Formats;
 
-class StringTest extends FormatTest
+class ReorderedStringTest extends FormatTest
 {
     /**
      * @return Format
      */
     protected function getSut()
     {
-        return new String();
+        return new ReorderedString();
     }
 
     protected function good()

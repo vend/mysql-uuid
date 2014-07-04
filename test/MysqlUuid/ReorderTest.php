@@ -13,7 +13,7 @@ class ReorderTest extends BaseTest
 
         $uuid = 'e856c9f6-0306-11e4-9583-080027f3add4';
 
-        $m = new MysqlUuid($uuid, new String());
+        $m = new Uuid($uuid, new String());
         $binary = $m->toFormat(new Binary());
 
 

@@ -17,6 +17,11 @@ abstract class FormatTest extends BaseTest
     abstract protected function bad();
 
     /**
+     * @return array<string,array>
+     */
+    abstract protected function fields();
+
+    /**
      * @return Format
      */
     abstract protected function getSut();
@@ -34,6 +39,16 @@ abstract class FormatTest extends BaseTest
 
         foreach ($this->bad() as $bad) {
             $this->assertFalse($format->isValid($bad));
+        }
+    }
+
+    /**
+     * Tests the toFields method
+     */
+    public function testToFields()
+    {
+        foreach ($this->fields() as $value => $fields) {
+            $this->assertEquals($fields, $this->getSut()->toFields($value));
         }
     }
 }

@@ -18,6 +18,8 @@ interface Format
     /**
      * Converts a formatted value to a set of fields
      *
+     * Fields are always returned as hex strings
+     *
      * @param string $value
      * @return array<string,string>
      */
@@ -30,7 +32,4 @@ interface Format
      * @return string
      */
     public function fromFields(array $fields);
-
-//    public function getVariant();
-//    public function getVersion();
 }

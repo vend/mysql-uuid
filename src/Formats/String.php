@@ -5,7 +5,7 @@ namespace MysqlUuid\Formats;
 /**
  * The traditional UUID string format
  */
-class String extends Reorderable
+class String implements Format
 {
     const FORMAT = '/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}/i';
 
@@ -28,13 +28,9 @@ class String extends Reorderable
      */
     public function toFields($value)
     {
-        if ($this->getVariant() == 1 && $this->getVersion() == 4) {
-            $parts = ['time_low', 'time_mid', 'time_high', 'clock_seq', 'node'];
-        } else {
-            $parts = ['node_high', 'node_low', 'time_high', 'clock_seq', 'time_midlow'];
-        }
 
-        $fields = array_combine($parts, explode('-', $value));
+
+        return array_combine(['time_low', 'time_mid', 'time_high', 'clock_seq', 'node'], explode('-', $value));
 
         if (!isset($fields['node'])) {
             $fields['node'] = $fields['node_high'] . $fields['node_low'];

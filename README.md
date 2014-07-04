@@ -1,5 +1,4 @@
-# MySQL UUID
-## Library for PHP
+# MySQL UUIDs
 
 This is a small library for working with MySQL UUIDs in PHP. MySQL UUIDs are
 128-bit values returned from the `UUID()` command in MySQL, and by default
