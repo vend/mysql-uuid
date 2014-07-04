@@ -1,5 +1,11 @@
 # MySQL UUIDs
 
+[![Build Status](https://travis-ci.org/vend/mysql-uuid.png)](https://travis-ci.org/vend/mysql-uuid)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/vend/mysql-uuid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vend/mysql-uuid/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/vend/mysql-uuid/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/vend/mysql-uuid/?branch=master)
+
+## Description
+
 This is a small library for working with MySQL UUIDs in PHP. MySQL UUIDs are
 128-bit values returned from the `UUID()` command in MySQL, and by default
 are formatted as a hex-and-dash traditional UUID string, like this:
@@ -23,6 +29,10 @@ MySQL UUIDs are generated according to "[DCE 1.1: Remote Procedure Call](http://
 ## Why Do This?
 
 Mainly for data clustering. We don't want a single buffer pool page to be under a lot of pressure for inserts (as would be the case with an auto_increment column), and we also don't want to randomly spread data across the entire index/table.
+
+## Installation
+
+Install via composer. That's it.
 
 ## Supported Formats
 
