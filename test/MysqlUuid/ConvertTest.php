@@ -39,6 +39,16 @@ class ConvertTest extends BaseTest
                     $converted,
                     sprintf('Converting %s from %s to %s', $after, $conversion['to'], $conversion['from'])
                 );
+
+                // Check reflexivity
+                $uuid = new Uuid($before, $from);
+                $converted = $uuid->toFormat($from);
+
+                $this->assertEquals(
+                    $before,
+                    $converted,
+                    sprintf('Converting %s from %s to %s', $after, $conversion['from'], $conversion['from'])
+                );
             }
         }
     }
