@@ -4,28 +4,15 @@ namespace MysqlUuid;
 
 use MysqlUuid\Formats\Format;
 use MysqlUuid\Formats\String;
-use UnexpectedValueException;
+
 use LogicException;
 use InvalidArgumentException;
 
 /**
  * MySQL UUID format utilities
- *
- * UUID variant 1 format:
- *  Field                     Type            Octet  Note
- *  -----                     ----            -----  ----
- *  time_low                  unsigned long   0-3    The low field of the timestamp.
- *  time_mid                  unsigned short  4-5    The middle field of the timestamp.
- *  time_hi_and_version       unsigned short  6-7    The high field of the timestamp multiplexed with the version number.
- *  clock_seq_hi_and_reserved unsigned small  8      The high field of the clock sequence multiplexed with the variant.
- *  clock_seq_low             unsigned small  9      The low field of the clock sequence.
- *  node                      character       10-15  The spatially unique node identifier.
  */
-class MysqlUuid
+class Uuid
 {
-
-
-
     /**
      * The current UUID value under consideration
      *
@@ -38,14 +25,11 @@ class MysqlUuid
      */
     protected $format;
 
-    protected $reorder = false;
-
     /**
      * @param string  $value   A UUID in any of the accepted formats
      * @param Format  $format  The format of the UUID (will be validated)
-     * @param boolean $reorder Whether to reorder fields within the UUID as an optimization
      */
-    public function __construct($value, Format $format = null, $reorder = false)
+    public function __construct($value, Format $format = null)
     {
         $this->value = $value;
 
@@ -54,8 +38,6 @@ class MysqlUuid
         } else {
             $this->format = new String();
         }
-
-        $this->reorder = $reorder;
     }
 
     public function isValid()
@@ -67,6 +49,7 @@ class MysqlUuid
     {
         return $format->fromFields($this->format->toFields($this->value));
     }
+
 
 
 

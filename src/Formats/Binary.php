@@ -3,11 +3,15 @@
 namespace MysqlUuid\Formats;
 
 /**
- * The traditional UUID string format
+ * 16 byte binary format
+ *
+ * The binary format always uses the same byte order: node, clock_seq, time_high, time_mid, time_low
+ * So, we don't need to support reordering
  */
-class String implements Format
+class Binary implements Format
 {
-    const FORMAT = '/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}/i';
+    const PACK   = 'H12H4H4H4H8';
+    const UNPACK = 'H12node/H4clock_seq/H4time_high/H4time_mid/H8time_low';
 
     /**
      * Whether the given value appears to fit this format
@@ -17,7 +21,7 @@ class String implements Format
      */
     public function isValid($value)
     {
-        return (boolean)preg_match(self::FORMAT, $value);
+        return (strlen($value) == 16);
     }
 
     /**
@@ -28,7 +32,7 @@ class String implements Format
      */
     public function toFields($value)
     {
-        return array_combine(['time_low', 'time_mid', 'time_high', 'clock_seq', 'node'], explode('-', $value));
+        return unpack(self::UNPACK, $value);
     }
 
     /**
@@ -39,6 +43,13 @@ class String implements Format
      */
     public function fromFields(array $fields)
     {
-        // TODO: Implement fromFields() method.
+        return pack(
+            self::PACK,
+            $fields['node'],
+            $fields['clock_seq'],
+            $fields['time_high'],
+            $fields['time_mid'],
+            $fields['time_low']
+        );
     }
 }

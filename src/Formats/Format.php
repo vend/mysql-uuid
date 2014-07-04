@@ -3,9 +3,9 @@
 namespace MysqlUuid\Formats;
 
 /**
- * Hex with dashes removed
+ * Represents a format of a UUID type
  */
-class Hex implements Format
+interface Format
 {
     /**
      * Whether the given value appears to fit this format
@@ -13,10 +13,7 @@ class Hex implements Format
      * @param string $value
      * @return boolean
      */
-    public function isValid($value)
-    {
-        return (boolean)preg_match('/[0-9A-F]{32}/i', $value);
-    }
+    public function isValid($value);
 
     /**
      * Converts a formatted value to a set of fields
@@ -24,21 +21,16 @@ class Hex implements Format
      * @param string $value
      * @return array<string,string>
      */
-    public function toFields($value)
-    {
-        // TODO: Implement toFields() method.
-    }
+    public function toFields($value);
 
     /**
      * Converts a set of fields to a formatted value
      *
-     * @param array <string,string> $fields
+     * @param array<string,string> $fields
      * @return string
      */
-    public function fromFields(array $fields)
-    {
+    public function fromFields(array $fields);
 
-
-        // TODO: Implement fromFields() method.
-    }
+//    public function getVariant();
+//    public function getVersion();
 }
