@@ -3,7 +3,10 @@
 namespace MysqlUuid\Formats;
 
 /**
- * A 'standard' UUID that has had the node and
+ * A 'standard' UUID that has had the node and time_mid/time_low fields swapped
+ *
+ * To retain the 4,2,2,2,6 byte separators, we have to split the node field when
+ * we move it, and combine the time_mid and time_low fields.
  */
 class ReorderedString extends String
 {
