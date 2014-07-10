@@ -24,8 +24,13 @@ class Uuid
     protected $format;
 
     /**
-     * @param string  $value   A UUID in any of the accepted formats
-     * @param Format  $format  The format of the UUID (will be validated)
+     * @var array<string,string>
+     */
+    protected $fields;
+
+    /**
+     * @param string $value  A UUID in any of the accepted formats
+     * @param Format $format The format of the UUID (will be validated)
      */
     public function __construct($value, Format $format = null)
     {
@@ -36,6 +41,27 @@ class Uuid
         } else {
             $this->format = new String();
         }
+
+        $this->fields = $this->format->toFields($this->value);
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    public function getField($name)
+    {
+        return $this->fields[$name];
+    }
+
+    /**
+     * @param string $name
+     * @param string $value
+     * @return void
+     */
+    public function setField($name, $value)
+    {
+        $this->fields[$name] = $value;
     }
 
     /**
@@ -56,15 +82,14 @@ class Uuid
      *
      * @param Format $format
      * @return string
+     * @throws InvalidArgumentException
      */
     public function toFormat(Format $format)
     {
-        $fields = $this->format->toFields($this->value);
-
-        if (!is_array($fields)) {
+        if (!is_array($this->fields)) {
             throw new InvalidArgumentException('Cannot get fields from UUID value');
         }
 
-        return $format->fromFields($fields);
+        return $format->fromFields($this->fields);
     }
 }
