@@ -41,16 +41,33 @@ class Uuid
         } else {
             $this->format = new String();
         }
+    }
 
-        $this->fields = $this->format->toFields($this->value);
+    /**
+     * Parses the value into fields (according to format)
+     *
+     * @throws InvalidArgumentException
+     * @return void
+     */
+    protected function parse()
+    {
+        if (!isset($this->fields)) {
+            $this->fields = $this->format->toFields($this->value);
+        }
+
+        if (!$this->fields) {
+            throw new InvalidArgumentException('Cannot parse value to fields');
+        }
     }
 
     /**
      * @param string $name
      * @return string
+     * @throws InvalidArgumentException
      */
     public function getField($name)
     {
+        $this->parse();
         return $this->fields[$name];
     }
 
@@ -58,9 +75,11 @@ class Uuid
      * @param string $name
      * @param string $value
      * @return void
+     * @throws InvalidArgumentException
      */
     public function setField($name, $value)
     {
+        $this->parse();
         $this->fields[$name] = $value;
     }
 
@@ -86,10 +105,7 @@ class Uuid
      */
     public function toFormat(Format $format)
     {
-        if (!is_array($this->fields)) {
-            throw new InvalidArgumentException('Cannot get fields from UUID value');
-        }
-
+        $this->parse();
         return $format->fromFields($this->fields);
     }
 }
