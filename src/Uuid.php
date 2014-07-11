@@ -3,6 +3,7 @@
 namespace MysqlUuid;
 
 use InvalidArgumentException;
+use LogicException;
 use MysqlUuid\Formats\Format;
 use MysqlUuid\Formats\String;
 

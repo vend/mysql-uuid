@@ -32,4 +32,16 @@ class UuidTest extends BaseTest
         $uuid = new Uuid('b8fc7a3e-0331-11e4-9583-080027f3add4', $format);
         $uuid->toFormat(new String());
     }
+
+    public function testFieldCrud()
+    {
+        $uuid = new Uuid('b8fc7a3e-0331-11e4-9583-080027f3add4');
+
+        $this->assertTrue($uuid->isValid());
+        $this->assertEquals('9583', $uuid->getField('clock_seq'));
+
+        $uuid->setField('clock_seq', 'ffff');
+
+        $this->assertEquals($uuid->toFormat(new String()), 'b8fc7a3e-0331-11e4-ffff-080027f3add4');
+    }
 }
