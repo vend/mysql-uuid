@@ -90,30 +90,17 @@ class Variant
      */
     public function set($variant)
     {
-        $value = $this->mask($this->getVariantByte(), $variant);
-        $this->setVariantByte($value);
-    }
-
-    /**
-     * Masks the given byte value to reflect the given variant
-     *
-     * @param string $byte    A single byte
-     * @param int    $variant A self::* constant
-     * @return int
-     */
-    protected function mask($byte, $variant)
-    {
-        if (!$this->mask[$variant]) {
+        if (empty($this->mask[$variant])) {
             throw new InvalidArgumentException('Invalid variant scheme; cannot find mask');
         }
 
+        $byte = ord($this->getVariantByte());
         list($pattern, $bits) = $this->mask[$variant];
 
         $mask = 0xFF >> $bits << $bits;
-        $masked = ~$mask & $byte;
-        $masked |= $mask & $pattern;
+        $value = ($byte & ~$mask) | ($pattern & $mask);
 
-        return $masked;
+        $this->setVariantByte(chr($value));
     }
 
     /**
