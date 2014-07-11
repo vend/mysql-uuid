@@ -2,7 +2,6 @@
 
 namespace MysqlUuid;
 
-use MysqlUuid\Formats\String;
 use MysqlUuid\Test\BaseTest;
 use ReflectionObject;
 
