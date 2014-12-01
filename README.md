@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/vend/mysql-uuid.png)](https://travis-ci.org/vend/mysql-uuid)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/vend/mysql-uuid/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/vend/mysql-uuid/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/vend/mysql-uuid/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/vend/mysql-uuid/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/vend/mysql-uuid/v/stable.svg)](https://packagist.org/packages/vend/mysql-uuid)
+[![License](https://poser.pugx.org/vend/mysql-uuid/license.svg)](https://packagist.org/packages/vend/mysql-uuid)
 
 ## Description
 
