@@ -5,7 +5,7 @@ namespace MysqlUuid\Formats;
 /**
  * The traditional UUID string format
  */
-class String implements Format
+class PlainString implements Format
 {
     const FORMAT = '/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}/i';
 

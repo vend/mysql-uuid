@@ -4,7 +4,7 @@ namespace MysqlUuid;
 
 use InvalidArgumentException;
 use MysqlUuid\Formats\Format;
-use MysqlUuid\Formats\String;
+use MysqlUuid\Formats\PlainString;
 
 /**
  * MySQL UUID format utilities
@@ -39,7 +39,7 @@ class Uuid
         if ($format) {
             $this->format = $format;
         } else {
-            $this->format = new String();
+            $this->format = new PlainString();
         }
     }
 

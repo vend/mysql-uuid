@@ -6,7 +6,7 @@ use MysqlUuid\Formats\Binary;
 use MysqlUuid\Formats\Format;
 use MysqlUuid\Formats\Hex;
 use MysqlUuid\Formats\ReorderedString;
-use MysqlUuid\Formats\String;
+use MysqlUuid\Formats\PlainString;
 use MysqlUuid\Test\BaseTest;
 
 class ConvertTest extends BaseTest
@@ -62,8 +62,8 @@ class ConvertTest extends BaseTest
     protected function getFormat($format)
     {
         switch ($format) {
-            case 'string':
-                return new String();
+            case 'plain':
+                return new PlainString();
             case 'reordered':
                 return new ReorderedString();
             case 'binary':
@@ -77,7 +77,7 @@ class ConvertTest extends BaseTest
     {
         return [
             [
-                'from'  => 'string',
+                'from'  => 'plain',
                 'to'    => 'reordered',
                 'cases' => [
                     'b8e2adff-0331-11e4-9583-080027f3add4' => '080027f3-add4-11e4-9583-0331b8e2adff',
@@ -85,7 +85,7 @@ class ConvertTest extends BaseTest
                 ],
             ],
             [
-                'from'  => 'string',
+                'from'  => 'plain',
                 'to'    => 'hex',
                 'cases' => [
                     'b8e2adff-0331-11e4-9583-080027f3add4' => 'b8e2adff033111e49583080027f3add4',
@@ -93,7 +93,7 @@ class ConvertTest extends BaseTest
                 ],
             ],
             [
-                'from'  => 'string',
+                'from'  => 'plain',
                 'to'    => 'binary',
                 'cases' => [
                     'b8e2adff-0331-11e4-9583-080027f3add4' => "\x08\x00\x27\xf3\xad\xd4\x95\x83\x11\xe4\x03\x31\xb8\xe2\xad\xff",

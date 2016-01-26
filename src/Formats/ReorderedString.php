@@ -8,7 +8,7 @@ namespace MysqlUuid\Formats;
  * To retain the 4,2,2,2,6 byte separators, we have to split the node field when
  * we move it, and combine the time_mid and time_low fields.
  */
-class ReorderedString extends String
+class ReorderedString extends PlainString
 {
     /**
      * @inheritDoc
