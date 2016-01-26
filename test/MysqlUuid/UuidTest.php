@@ -2,7 +2,7 @@
 
 namespace MysqlUuid;
 
-use MysqlUuid\Formats\String;
+use MysqlUuid\Formats\PlainString;
 use MysqlUuid\Test\BaseTest;
 
 class UuidTest extends BaseTest
@@ -30,7 +30,7 @@ class UuidTest extends BaseTest
             ->will($this->returnValue(null));
 
         $uuid = new Uuid('b8fc7a3e-0331-11e4-9583-080027f3add4', $format);
-        $uuid->toFormat(new String());
+        $uuid->toFormat(new PlainString());
     }
 
     public function testFieldCrud()
@@ -42,6 +42,6 @@ class UuidTest extends BaseTest
 
         $uuid->setField('clock_seq', 'ffff');
 
-        $this->assertEquals($uuid->toFormat(new String()), 'b8fc7a3e-0331-11e4-ffff-080027f3add4');
+        $this->assertEquals($uuid->toFormat(new PlainString()), 'b8fc7a3e-0331-11e4-ffff-080027f3add4');
     }
 }
