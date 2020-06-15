@@ -7,7 +7,7 @@ namespace MysqlUuid\Formats;
  */
 class PlainString implements Format
 {
-    const FORMAT = '/[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}/i';
+    const FORMAT = '/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i';
 
     /**
      * Whether the given value appears to fit this format
