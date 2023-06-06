@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  annotations:
+    github.com/project-slug: vend/mysql-uuid
+  description: A PHP library for manipulating MySQL UUIDs into better performing primary keys
+  name: mysql-uuid
+spec:
+  lifecycle: production
+  owner: tba
+  type: library
